@@ -1,95 +1,131 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
 
-export default function Home() {
+import React, { useRef, useState, useEffect } from 'react';
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Typography,
+  TextField as MUITextField,
+} from '@mui/material';
+import db from '@/firebase/config';
+
+interface TextFieldRef {
+  ref: React.MutableRefObject<HTMLInputElement | null>;
+  code: string;
+}
+
+const Home: React.FC = () => {
+  const inputRefs = useRef<TextFieldRef[]>(Array.from({ length: 6 }, () => ({
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    ref: useRef<HTMLInputElement | null>(null),
+    code: '',
+  })));
+
+  const handleInputChange = (index: number, value: string) => {
+    const newInputRefs = [...inputRefs.current];
+    newInputRefs[index].code = value;
+    inputRefs.current = newInputRefs;
+
+    if (value !== '' && index < inputRefs.current.length - 1) {
+      inputRefs.current[index + 1].ref.current?.focus();
+    }
+  };
+
+  const handleSubmit = () => {
+    const codes = inputRefs.current.map((inputRef) => inputRef.code);
+    console.log('Submitted codes:', codes);
+
+    
+  };
+
+  useEffect(() => {
+    const handleFocus = (index: number) => {
+      inputRefs.current[index].ref.current?.select();
+    };
+
+    inputRefs.current.forEach((_, index) => {
+      const ref = inputRefs.current[index].ref.current;
+      if (ref) {
+        ref.addEventListener('focus', () => handleFocus(index));
+      }
+    });
+
+    return () => {
+      inputRefs.current.forEach((_, index) => {
+        const ref = inputRefs.current[index].ref.current;
+        if (ref) {
+          ref.removeEventListener('focus', () => handleFocus(index));
+        }
+      });
+    };
+  }, []);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <main>
+      <Container
+        maxWidth="xl"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          mt: 4,
+          padding: 4,
+          border: '1px solid #ccc',
+          borderRadius: 4,
+          backgroundColor: '#f0f0f0',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <Typography variant="h3" sx={{ fontWeight: 'bold', fontFamily: "VT323" }}>
+          Scavenger Hunt
+        </Typography>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', fontFamily: "VT323" }}>CoE First Meet</Typography>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Typography variant="h6" sx={{ mt: 14 ,fontFamily: "Noto Sans Thai"}}>
+          กรอกโค้ด
+        </Typography>
+
+        <FormControl
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mt: 2,
+            gap: 0.4,
+            border: '1px solid #ccc',
+            borderRadius: 4,
+            padding: 1,
+            backgroundColor: '#f0f0f0',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          }}
         >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+          {inputRefs.current.map((inputRef, index) => (
+            <React.Fragment key={index}>
+              <MUITextField
+                variant="outlined"
+                size="small"
+                sx={{ width: 40 }}
+                inputRef={inputRef.ref}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+                autoFocus={index === 0}
+              />
+              {index !== inputRefs.current.length - 1 && index !== 3 && index !== 0 && index !== 2 && (
+                <Typography variant="h6">-</Typography>
+              )}
+            </React.Fragment>
+          ))}
+        </FormControl>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+        <Button variant="contained" sx={{ mt: 8, px: 4, borderRadius: 4, fontFamily: "Noto Sans Thai"}} onClick={handleSubmit}>
+          ใช้โค้ด
+        </Button>
+      </Container>
     </main>
   );
-}
+};
+
+export default Home;
