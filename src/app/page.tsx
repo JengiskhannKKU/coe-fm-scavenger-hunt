@@ -17,21 +17,12 @@ import {
 } from "@mui/material";
 import db from "@/firebase/config";
 import {
-  collection,
   doc,
   getDoc,
   serverTimestamp,
-  setDoc,
   updateDoc,
 } from "firebase/firestore";
 
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
-import { string } from "yup";
-import { COMPILER_INDEXES } from "next/dist/shared/lib/constants";
-import { update } from "firebase/database";
-import { timeStamp } from "console";
 import Image from 'next/image'
 
 interface TextFieldRef {
