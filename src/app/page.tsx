@@ -1,8 +1,7 @@
-"use client";
+"use client"
 
 import React, { useRef, useState, useEffect } from "react";
 import {
-  Box,
   Button,
   Container,
   FormControl,
@@ -13,24 +12,24 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  CircularProgress,
 } from "@mui/material";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import db from "@/firebase/config";
-import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
-
-import Image from 'next/image'
+import Image from 'next/image';
 
 interface TextFieldRef {
   ref: React.MutableRefObject<HTMLInputElement | null>;
   code: string;
 }
 
-const scavengerTeam = [
+interface ScavengerTeam {
+  teamName: string;
+  firstPlace: string;
+  seccondPlace: string;
+  thirdPlace: string;
+}
+
+const scavengerTeam: ScavengerTeam[] = [
   {
     teamName: "java",
     firstPlace: "1jcode",
@@ -61,10 +60,8 @@ const Home: React.FC = () => {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const [teamName, setTeamName] = useState<string>("");
   const [isCodeValid, setIsCodeValid] = useState<boolean>(true);
-
   const inputRefs = useRef<TextFieldRef[]>(
     Array.from({ length: 6 }, () => ({
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       ref: useRef<HTMLInputElement | null>(null),
       code: "",
     }))
@@ -99,7 +96,7 @@ const Home: React.FC = () => {
     console.log("Team Name:", teamName);
   };
 
-  const getTeamName = (code2: string) => {
+  const getTeamName = (code2: string): string => {
     for (const element of scavengerTeam) {
       if (
         code2 === element.firstPlace ||
@@ -133,19 +130,13 @@ const Home: React.FC = () => {
     }
 
     if (foundTeamName && orderOfValidCode) {
-      const validCodeTeamCollectionRef = doc(
-        db,
-        foundTeamName,
-        orderOfValidCode
-      );
+      const validCodeTeamCollectionRef = doc(db, foundTeamName, orderOfValidCode);
       const isUsedValidCode = (await getDoc(validCodeTeamCollectionRef)).data();
-      const currentPoint = (
-        await getDoc(doc(db, foundTeamName, "sum-points"))
-      ).data();
+      const currentPoint = (await getDoc(doc(db, foundTeamName, "sum-points"))).data();
 
       console.log("Order of valid code:", orderOfValidCode);
 
-      if (isUsedValidCode && isUsedValidCode.isUsed != true) {
+      if (isUsedValidCode && !isUsedValidCode.isUsed) {
         console.log("Is code used:", isUsedValidCode.isUsed);
 
         await updateDoc(validCodeTeamCollectionRef, {
@@ -180,7 +171,6 @@ const Home: React.FC = () => {
 
     return () => {
       inputRefs.current.forEach((_, index) => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         const ref = inputRefs.current[index].ref.current;
         if (ref) {
           ref.removeEventListener("focus", () => handleFocus(index));
@@ -276,67 +266,45 @@ const Home: React.FC = () => {
           ใช้โค้ด
         </Button>
 
-        <React.Fragment>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle
+            id="alert-dialog-title"
+            sx={{ fontFamily: "VT323", fontWeight: "bold" }}
           >
-            <DialogTitle
-              id="alert-dialog-title"
-              sx={{ fontFamily: "VT323", fontWeight: "bold" }}
+            {teamName ? `Team: ${teamName}` : "Team: None"}
+          </DialogTitle>
+
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {isCodeValid ? (
+                <Image src="https://i.ibb.co/TvVT3K6/valid-code.jpg" width={250} height={300} alt="valid-code" />
+              ) : (
+                <Image src="https://i.ibb.co/60ngySD/invalid-code.jpg" width={250} height={300} alt="invalid-code" />
+              )}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mt: 8,
+                px: 4,
+                borderRadius: 4,
+                fontFamily: "Noto Sans Thai",
+              }}
+              onClick={handleClose}
             >
-              {teamName ? `Team: ${teamName}` : "Team: None"}
-            </DialogTitle>
-
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                {isCodeValid ? (
-                  <Image src="https://i.ibb.co/TvVT3K6/valid-code.jpg" width={250} height={300} alt="valid-code" />
-                ) : (
-                  <Image src="https://i.ibb.co/60ngySD/invalid-code.jpg" width={250} height={300} alt="invalid-code" />
-                )}
-              </DialogContentText>
-
-              <React.Fragment>
-                <svg width={0} height={0}>
-                  <defs>
-                    <linearGradient
-                      id="my_gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="0%"
-                      y2="0%"
-                    >
-                      <stop offset="0%" stopColor="#CDC2AE" />
-                      <stop offset="100%" stopColor="#C2DEDC" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <CircularProgress
-                  sx={{ "svg circle": { stroke: "url(#my_gradient)" } }}
-                />
-              </React.Fragment>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                variant="contained"
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  mt: 8,
-                  px: 4,
-                  borderRadius: 4,
-                  fontFamily: "Noto Sans Thai",
-                }}
-                onClick={handleClose}
-              >
-                ตกลง
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </React.Fragment>
+              ตกลง
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
     </main>
   );
