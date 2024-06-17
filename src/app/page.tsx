@@ -154,7 +154,6 @@ const Home: React.FC = () => {
 
       console.log("Order of valid code:", orderOfValidCode);
 
-      //
       if (isUsedValidCode && isUsedValidCode.isUsed != true) {
         console.log("Is code used:", isUsedValidCode.isUsed);
 
@@ -303,9 +302,9 @@ const Home: React.FC = () => {
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 {isCodeValid ? (
-                  <Image src="/assets/valid-code.png" width={250} height={300} alt="valid-code" />
+                  <Image src="https://i.ibb.co/TvVT3K6/valid-code.jpg" width={250} height={300} alt="valid-code" />
                 ) : (
-                  <Image src="/assets/invalid-code.png" width={250} height={300} alt="invalid-code" />
+                  <Image src="https://i.ibb.co/60ngySD/invalid-code.jpg" width={250} height={300} alt="invalid-code" />
                 )}
               </DialogContentText>
 
