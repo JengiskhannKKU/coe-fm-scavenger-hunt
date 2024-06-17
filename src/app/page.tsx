@@ -154,6 +154,7 @@ const Home: React.FC = () => {
 
       console.log("Order of valid code:", orderOfValidCode);
 
+      //
       if (isUsedValidCode && isUsedValidCode.isUsed != true) {
         console.log("Is code used:", isUsedValidCode.isUsed);
 
