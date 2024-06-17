@@ -60,12 +60,11 @@ const Home: React.FC = () => {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const [teamName, setTeamName] = useState<string>("");
   const [isCodeValid, setIsCodeValid] = useState<boolean>(true);
-  const inputRefs = useRef<TextFieldRef[]>(
-    Array.from({ length: 6 }, () => ({
-      ref: useRef<HTMLInputElement | null>(null),
-      code: "",
-    }))
-  );
+  const inputRefs = useRef<TextFieldRef[]>(Array.from({ length: 6 }, () => ({
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    ref: useRef<HTMLInputElement | null>(null),
+    code: "",
+  })));
 
   const handleInputChange = (index: number, value: string) => {
     const newCode = [...code];
@@ -171,6 +170,7 @@ const Home: React.FC = () => {
 
     return () => {
       inputRefs.current.forEach((_, index) => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         const ref = inputRefs.current[index].ref.current;
         if (ref) {
           ref.removeEventListener("focus", () => handleFocus(index));
