@@ -2,5 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 body {
-    background: linear-gradient(135deg, #CDC2AE 10%, #C2DEDC 100%);
+    background-image: url('https://i.ibb.co/bXFpNJx/Purple-Tones-Pixel-Art-Illustration-Poster.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }

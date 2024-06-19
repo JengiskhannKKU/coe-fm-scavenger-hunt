@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useRef, useState, useEffect } from "react";
 import {
@@ -12,10 +12,18 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Stack,
 } from "@mui/material";
-import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import moment from "moment-timezone"; // Import Moment and Moment Timezone
+import {
+  Timestamp,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import db from "@/firebase/config";
-import Image from 'next/image';
+import Image from "next/image";
 
 interface TextFieldRef {
   ref: React.MutableRefObject<HTMLInputElement | null>;
@@ -60,11 +68,17 @@ const Home: React.FC = () => {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const [teamName, setTeamName] = useState<string>("");
   const [isCodeValid, setIsCodeValid] = useState<boolean>(true);
-  const inputRefs = useRef<TextFieldRef[]>(Array.from({ length: 6 }, () => ({
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    ref: useRef<HTMLInputElement | null>(null),
-    code: "",
-  })));
+  const [progress, setProgress] = useState<number | null>(0);
+  const [isUsed, setIsUsed] = useState<boolean | null>();
+  const timeStamp = moment().tz("Asia/Bangkok").format("HH:mm:ss");
+
+  const inputRefs = useRef<TextFieldRef[]>(
+    Array.from({ length: 6 }, () => ({
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      ref: useRef<HTMLInputElement | null>(null),
+      code: "",
+    }))
+  );
 
   const handleInputChange = (index: number, value: string) => {
     const newCode = [...code];
@@ -77,17 +91,15 @@ const Home: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    const joinedCode = code.join("");
+    const joinedCode = code.join("").toLowerCase();
     const teamName = getTeamName(joinedCode);
     setTeamName(teamName);
     setIsCodeValid(teamName !== "");
 
     if (teamName) {
-      // Reset the code input fields if the code is valid
       setCode(Array(6).fill(""));
       inputRefs.current[0].ref.current?.focus();
 
-      // Check for code validity in the database
       await handleValidCode(joinedCode);
     }
 
@@ -129,9 +141,23 @@ const Home: React.FC = () => {
     }
 
     if (foundTeamName && orderOfValidCode) {
-      const validCodeTeamCollectionRef = doc(db, foundTeamName, orderOfValidCode);
+      const validCodeTeamCollectionRef = doc(
+        db,
+        foundTeamName,
+        orderOfValidCode
+      );
       const isUsedValidCode = (await getDoc(validCodeTeamCollectionRef)).data();
-      const currentPoint = (await getDoc(doc(db, foundTeamName, "sum-points"))).data();
+      if (isUsedValidCode) {
+        setIsUsed(isUsedValidCode.isUsed);
+      }
+
+      const currentPoint = (
+        await getDoc(doc(db, foundTeamName, "sum-points"))
+      ).data();
+
+      if (currentPoint) {
+        setProgress(currentPoint.point);
+      }
 
       console.log("Order of valid code:", orderOfValidCode);
 
@@ -149,6 +175,8 @@ const Home: React.FC = () => {
           await updateDoc(doc(db, foundTeamName, "sum-points"), {
             point: newPoint,
           });
+
+          setProgress(newPoint);
         }
       }
     } else {
@@ -190,6 +218,11 @@ const Home: React.FC = () => {
     setOpen(false);
   };
 
+  const imageStyle = {
+    borderRadius: "8px",
+    border: "1px solid #fff",
+  };
+
   return (
     <main>
       <Container
@@ -198,30 +231,40 @@ const Home: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          mt: 4,
+          mt: 8,
           padding: 4,
-          border: "1px solid #ccc",
+          border: "2px solid #ccc",
           borderRadius: 4,
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "rgba(192, 192, 192, 0.7)",
+          backdropFilter: "blur(10px)",
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         }}
       >
         <Typography
           variant="h3"
-          sx={{ fontWeight: "bold", fontFamily: "VT323" }}
+          sx={{
+            fontWeight: "bold",
+            fontFamily: "VT323",
+            textShadow: "2px 2px #7f00ff",
+            color: "#ffffff",
+          }}
         >
           Scavenger Hunt
         </Typography>
 
         <Typography
           variant="h5"
-          sx={{ fontWeight: "normal", fontFamily: "VT323" }}
+          sx={{
+            fontWeight: "normal",
+            fontFamily: "VT323",
+            textShadow: "1px 1px #7f00ff",
+            color: "#000000",
+          }}
         >
-          CoE First Meet
+          CoE | First Meet
         </Typography>
-
         <Typography variant="h6" sx={{ mt: 14, fontFamily: "Noto Sans Thai" }}>
-          กรอกโค้ด
+          จงแก้ปริศนาและกรอกโค้ด
         </Typography>
 
         <FormControl
@@ -235,7 +278,8 @@ const Home: React.FC = () => {
             border: "1px solid #ccc",
             borderRadius: 4,
             padding: 1,
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "rgba(255, 255, 255, 0.7)",
+            backdropFilter: "blur(10px)",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
@@ -257,7 +301,6 @@ const Home: React.FC = () => {
             </React.Fragment>
           ))}
         </FormControl>
-
         <Button
           variant="contained"
           sx={{ mt: 8, px: 4, borderRadius: 4, fontFamily: "Noto Sans Thai" }}
@@ -265,7 +308,6 @@ const Home: React.FC = () => {
         >
           ใช้โค้ด
         </Button>
-
         <Dialog
           open={open}
           onClose={handleClose}
@@ -281,11 +323,177 @@ const Home: React.FC = () => {
 
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              {isCodeValid ? (
-                <Image src="https://i.ibb.co/TvVT3K6/valid-code.jpg" width={250} height={300} alt="valid-code" />
-              ) : (
-                <Image src="https://i.ibb.co/60ngySD/invalid-code.jpg" width={250} height={300} alt="invalid-code" />
+              {isCodeValid && isUsed != true && (
+                <>
+                  <Image
+                    src="https://i.ibb.co/TvVT3K6/valid-code.jpg"
+                    width={225}
+                    height={250}
+                    alt="valid-code"
+                    style={{ borderRadius: "8px", border: "1px solid #fff" }}
+                  />
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      fontWeight: "bold",
+
+                      mt: 2,
+
+                      fontFamily: "VT323",
+                    }}
+                  >
+                    Team : {teamName}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      fontWeight: "bold",
+
+                      mt: 2,
+
+                      fontFamily: "VT323",
+                    }}
+                  >
+                    Time-Stamp : {timeStamp}
+                  </Typography>
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                      mt: 2,
+                    }}
+                  >
+                    {progress && progress == 50 && (
+                      <>
+                        <Image
+                          src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                        <Image
+                          src="https://i.ibb.co/d54z8Fz/pixil-frame-0-1.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                        <Image
+                          src="https://i.ibb.co/d54z8Fz/pixil-frame-0-1.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                      </>
+                    )}
+                    {progress && progress == 100 && (
+                      <>
+                        <Image
+                          src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                        <Image
+                          src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                        <Image
+                          src="https://i.ibb.co/d54z8Fz/pixil-frame-0-1.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                      </>
+                    )}
+                    {progress && progress == 150 && (
+                      <>
+                        <Image
+                          src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                        <Image
+                          src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                        <Image
+                          src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                          width={50}
+                          height={50}
+                          alt="valid-code"
+                          style={{
+                            borderRadius: "8px",
+                            border: "1px solid #fff",
+                          }}
+                        />
+                      </>
+                    )}
+                  </Stack>
+                </>
               )}
+
+              {(isCodeValid && isUsed == true) && (
+                <Image
+                  src="https://i.ibb.co/8dMw8vj/1.png"
+                  width={225}
+                  height={250}
+                  alt="valid-code"
+                  style={{ borderRadius: "8px", border: "1px solid #fff" }}
+                />
+              )}
+
+              {isCodeValid == false && (
+                <Image
+                  src="https://i.ibb.co/60ngySD/invalid-code.jpg"
+                  width={225}
+                  height={250}
+                  alt="valid-code"
+                  style={{ borderRadius: "8px", border: "1px solid #fff" }}
+                />
+              )}
+
             </DialogContentText>
           </DialogContent>
           <DialogActions>
