@@ -166,7 +166,7 @@ const Home: React.FC = () => {
 
         await updateDoc(validCodeTeamCollectionRef, {
           isUsed: true,
-          timeStamp: serverTimestamp(),
+          timeStamp: timeStamp,
         });
 
         if (currentPoint) {
@@ -216,11 +216,6 @@ const Home: React.FC = () => {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const imageStyle = {
-    borderRadius: "8px",
-    border: "1px solid #fff",
   };
 
   return (
