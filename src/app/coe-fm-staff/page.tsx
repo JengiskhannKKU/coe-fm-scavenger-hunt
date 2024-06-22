@@ -25,44 +25,12 @@ import {
 } from "firebase/firestore";
 import db from "@/firebase/config";
 
-interface ScavengerTeam {
-  teamName: string;
-  firstPlace: string;
-  seccondPlace: string;
-  thirdPlace: string;
-}
-
-const scavengerTeam: ScavengerTeam[] = [
-  {
-    teamName: "java",
-    firstPlace: "1jcode",
-    seccondPlace: "2jcode",
-    thirdPlace: "3jcode",
-  },
-  {
-    teamName: "c++",
-    firstPlace: "1ccode",
-    seccondPlace: "2ccode",
-    thirdPlace: "3ccode",
-  },
-  {
-    teamName: "python",
-    firstPlace: "1pcode",
-    seccondPlace: "2pcode",
-    thirdPlace: "3pcode",
-  },
-  {
-    teamName: "r-project",
-    firstPlace: "1rcode",
-    seccondPlace: "2rcode",
-    thirdPlace: "3rcode",
-  },
-];
-
 const Home: React.FC = () => {
   const timeStamp = moment().tz("Asia/Bangkok").format("HH:mm:ss");
   const [teamName, setTeamName] = useState<string | null>();
   const [currentOrderPlace, setCurrentOrderPlace] = useState<string | null>();
+  const [isSubmitButtonSelected, setIsSubmitButtonSelected] =
+    useState<boolean>(false);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -71,6 +39,7 @@ const Home: React.FC = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setIsSubmitButtonSelected(false);
   };
 
   const handleStartEventTimeStamp = async () => {
@@ -82,9 +51,12 @@ const Home: React.FC = () => {
       await updateDoc(doc(db, "startEventTimeStamp", teamName), data);
     }
 
-    console.log("sucess");
+    console.log("success");
     console.log(teamName + " : " + timeStamp);
   };
+
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   return (
     <main>
@@ -355,6 +327,18 @@ const Home: React.FC = () => {
                 <Typography>{teamName}</Typography>
                 <Typography>{currentOrderPlace}</Typography>
                 <Typography>{timeStamp}</Typography>
+                {isSubmitButtonSelected && (
+                  <Typography
+                    sx={{
+                      fontFamily: "Noto Sans Thai",
+                      fontWeight: "bold",
+                      mt: 2,
+                      mr: 2,
+                    }}
+                  >
+                    เริ่มเกม!
+                  </Typography>
+                )}
               </Container>
             </DialogContentText>
           </DialogContent>
@@ -364,8 +348,10 @@ const Home: React.FC = () => {
             </Button>
             <Button
               variant="contained"
-              onClick={() => {
-                handleStartEventTimeStamp();
+              onClick={async () => {
+                await handleStartEventTimeStamp();
+                setIsSubmitButtonSelected(true);
+                await delay(3000);
                 handleClose();
               }}
               autoFocus
