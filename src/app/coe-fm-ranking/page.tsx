@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container, Link, Typography } from "@mui/material";
 import moment from "moment-timezone"; // Import Moment and Moment Timezone
 import { getDocs, collection } from "firebase/firestore";
 import db from "@/firebase/config";
@@ -100,27 +100,52 @@ const Home: React.FC = () => {
     };
 
     const calculateDiffTimestamps = (startData: any[], endData: any[]) => {
-      const diffData: any[] = startData.map((startTeam) => {
-        const endTeam = endData.find((end) => end.teamName === startTeam.teamName);
-        if (!endTeam) return { teamName: startTeam.teamName, "1st": null, "2nd": null, "3rd": null };
+      const diffData: any[] = startData
+        .map((startTeam) => {
+          const endTeam = endData.find(
+            (end) => end.teamName === startTeam.teamName
+          );
+          if (!endTeam)
+            return {
+              teamName: startTeam.teamName,
+              "1st": null,
+              "2nd": null,
+              "3rd": null,
+            };
 
-        const diff1st = startTeam["1st"] && endTeam["1st"]
-          ? moment(endTeam["1st"], 'HH:mm:ss').diff(moment(startTeam["1st"], 'HH:mm:ss'), 'minutes', true)
-          : null;
-        const diff2nd = startTeam["2nd"] && endTeam["2nd"]
-          ? moment(endTeam["2nd"], 'HH:mm:ss').diff(moment(startTeam["2nd"], 'HH:mm:ss'), 'minutes', true)
-          : null;
-        const diff3rd = startTeam["3rd"] && endTeam["3rd"]
-          ? moment(endTeam["3rd"], 'HH:mm:ss').diff(moment(startTeam["3rd"], 'HH:mm:ss'), 'minutes', true)
-          : null;
+          const diff1st =
+            startTeam["1st"] && endTeam["1st"]
+              ? moment(endTeam["1st"], "HH:mm:ss").diff(
+                  moment(startTeam["1st"], "HH:mm:ss"),
+                  "minutes",
+                  true
+                )
+              : null;
+          const diff2nd =
+            startTeam["2nd"] && endTeam["2nd"]
+              ? moment(endTeam["2nd"], "HH:mm:ss").diff(
+                  moment(startTeam["2nd"], "HH:mm:ss"),
+                  "minutes",
+                  true
+                )
+              : null;
+          const diff3rd =
+            startTeam["3rd"] && endTeam["3rd"]
+              ? moment(endTeam["3rd"], "HH:mm:ss").diff(
+                  moment(startTeam["3rd"], "HH:mm:ss"),
+                  "minutes",
+                  true
+                )
+              : null;
 
-        return {
-          teamName: startTeam.teamName,
-          "1st": diff1st,
-          "2nd": diff2nd,
-          "3rd": diff3rd,
-        };
-      }).filter(Boolean);
+          return {
+            teamName: startTeam.teamName,
+            "1st": diff1st,
+            "2nd": diff2nd,
+            "3rd": diff3rd,
+          };
+        })
+        .filter(Boolean);
 
       setDiffTimestamps(diffData);
     };
@@ -228,10 +253,44 @@ const Home: React.FC = () => {
               color: "#7f00ff",
             }}
           >
-            : {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)} P.
+            : {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)}{" "}
+            P.
           </Typography>
         </Container>
       ))}
+
+      {/* ------------------------ Footer ------------------- */}
+      <Container
+        maxWidth="xl"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mt: 20,
+          padding: 1,
+          border: "2px solid #ccc",
+          borderRadius: 4,
+          backgroundColor: "rgba(192, 192, 192, 0.7)",
+          backdropFilter: "blur(10px)",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            fontFamily: "VT323",
+            color: "#7f00ff",
+          }}
+        >
+          <Link
+            href="https://www.instagram.com/9jengiskhann/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Dev By: jengiskhann
+          </Link>
+        </Typography>
+      </Container>
     </main>
   );
 };

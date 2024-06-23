@@ -13,6 +13,7 @@ import {
   DialogContentText,
   DialogTitle,
   Stack,
+  Link,
 } from "@mui/material";
 import moment from "moment-timezone"; // Import Moment and Moment Timezone
 import {
@@ -469,7 +470,7 @@ const Home: React.FC = () => {
                 </>
               )}
 
-              {(isCodeValid && isUsed == true) && (
+              {isCodeValid && isUsed == true && (
                 <Image
                   src="https://i.ibb.co/8dMw8vj/1.png"
                   width={225}
@@ -488,7 +489,6 @@ const Home: React.FC = () => {
                   style={{ borderRadius: "8px", border: "1px solid #fff" }}
                 />
               )}
-
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -508,6 +508,40 @@ const Home: React.FC = () => {
             </Button>
           </DialogActions>
         </Dialog>
+      </Container>
+
+      {/* ------------------------ Footer ------------------- */}
+      <Container
+        maxWidth="xl"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mt: 20,
+          padding: 1,
+          border: "2px solid #ccc",
+          borderRadius: 4,
+          backgroundColor: "rgba(192, 192, 192, 0.7)",
+          backdropFilter: "blur(10px)",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            fontFamily: "VT323",
+            color: "#7f00ff",
+          }}
+        >
+          <Link
+          href="https://www.instagram.com/9jengiskhann/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Dev By: jengiskhann
+        </Link>
+        </Typography>
+        
       </Container>
     </main>
   );
