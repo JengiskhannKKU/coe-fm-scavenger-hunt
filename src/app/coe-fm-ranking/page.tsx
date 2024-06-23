@@ -18,9 +18,24 @@ const Home: React.FC = () => {
     const MAX_SCORE = 480;
 
     const scores = diffTimestamps.map((diff) => {
-      const score_1st = diff["1st"] !== null ? (MAX_TIME - diff["1st"]) * (MAX_SCORE / MAX_TIME) : 0;
-      const score_2nd = diff["2nd"] !== null ? (MAX_TIME - diff["2nd"]) * (MAX_SCORE / MAX_TIME) : 0;
-      const score_3rd = diff["3rd"] !== null ? (MAX_TIME - diff["3rd"]) * (MAX_SCORE / MAX_TIME) : 0;
+      let score_1st = 0;
+      let score_2nd = 0;
+      let score_3rd = 0;
+
+      if (diff["1st"] !== null && diff["1st"] <= MAX_TIME) {
+        score_1st = (MAX_TIME - diff["1st"]) * (MAX_SCORE / MAX_TIME);
+      }
+      if (diff["2nd"] !== null && diff["2nd"] <= MAX_TIME) {
+        score_2nd = (MAX_TIME - diff["2nd"]) * (MAX_SCORE / MAX_TIME);
+      }
+      if (diff["3rd"] !== null && diff["3rd"] <= MAX_TIME) {
+        score_3rd = (MAX_TIME - diff["3rd"]) * (MAX_SCORE / MAX_TIME);
+      }
+
+      // Ensure scores are formatted to 2 decimal places
+      score_1st = parseFloat(score_1st.toFixed(2));
+      score_2nd = parseFloat(score_2nd.toFixed(2));
+      score_3rd = parseFloat(score_3rd.toFixed(2));
 
       return {
         teamName: diff.teamName,
@@ -212,7 +227,7 @@ const Home: React.FC = () => {
               color: "#7f00ff",
             }}
           >
-            : {team["1st"] + team["2nd"] + team["3rd"]} P.
+            : {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)}
           </Typography>
         </Container>
       ))}
