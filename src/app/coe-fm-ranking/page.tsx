@@ -193,6 +193,7 @@ const Home: React.FC = () => {
           sx={{
             display: "flex",
             flexDirection: "row",
+            justifyContent: "center",
             alignItems: "center",
             mt: 2,
             padding: 4,
@@ -227,7 +228,7 @@ const Home: React.FC = () => {
               color: "#7f00ff",
             }}
           >
-            : {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)}
+            : {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)} P.
           </Typography>
         </Container>
       ))}
