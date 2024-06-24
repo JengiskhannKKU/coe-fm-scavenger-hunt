@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Typography, Stack } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        {children}
+      </body>
     </html>
   );
 }
