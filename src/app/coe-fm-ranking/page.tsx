@@ -226,7 +226,7 @@ const Home: React.FC = () => {
             borderRadius: "20px",
             height: "50px",
             alignItems: "center",
-            width : '100%'
+            width: "100%",
           }}
         ></div>
       </div>
@@ -312,6 +312,34 @@ const Home: React.FC = () => {
               }}
             >
               {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)}
+            </Typography>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "200px",
+              height: "100px",
+              alignItems: "center",
+              backgroundColor: "rgb(21, 52, 72)",
+              marginLeft: "50px",
+              borderRadius: "10px",
+              backdropFilter: "blur(10px)",
+              boxShadow: "0 12px 4px rgba(0, 0, 0, 0.4)",
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                fontWeight: morKhor.style.fontWeight,
+                fontFamily: morKhor.style.fontFamily,
+                // textShadow: "2px 2px #ffffff",
+                color: "rgb(255,255,255)",
+              }}
+            >
+            Time
             </Typography>
           </div>
           <div
