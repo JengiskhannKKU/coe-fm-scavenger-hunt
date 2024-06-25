@@ -29,20 +29,12 @@ import {
 import db from "@/firebase/config";
 import Image from "next/image";
 import { hetKhonFont, maliFont, morKhor } from "./assets/fonts/index";
-import BoxWord from "@/shared/components/box-character";
 import TourIcon from "@mui/icons-material/Tour";
-import BeenhereIcon from '@mui/icons-material/Beenhere';
+import { ScavengerTeam } from "@/shared/interfaces";
 
 interface TextFieldRef {
   ref: React.MutableRefObject<HTMLInputElement | null>;
   code: string;
-}
-
-interface ScavengerTeam {
-  teamName: string;
-  firstPlace: string;
-  seccondPlace: string;
-  thirdPlace: string;
 }
 
 const scavengerTeam: ScavengerTeam[] = [
