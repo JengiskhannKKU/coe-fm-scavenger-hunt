@@ -31,6 +31,7 @@ import Image from "next/image";
 import { hetKhonFont, maliFont, morKhor } from "./assets/fonts/index";
 import BoxWord from "@/shared/components/box-character";
 import TourIcon from "@mui/icons-material/Tour";
+import BeenhereIcon from '@mui/icons-material/Beenhere';
 
 interface TextFieldRef {
   ref: React.MutableRefObject<HTMLInputElement | null>;
@@ -278,6 +279,8 @@ const Home: React.FC = () => {
             height: "400px",
             marginTop: "50px",
             borderRadius: "10px",
+            backdropFilter: "blur(10px)",
+            boxShadow: "0 16px 16px rgba(0, 0, 0, 0.4)",
           }}
         >
           <Stack direction="column" spacing={2}>
@@ -619,11 +622,12 @@ const Home: React.FC = () => {
                       display: "flex",
                       justifyContent: "center",
                       mt: 8,
-                      px: 4,
+                      px: 2,
                       borderRadius: 4,
                       fontFamily: morKhor.style.fontFamily,
                       fontWeight : morKhor.style.fontWeight,
-                      backgroundColor : 'rgb(21, 52, 72)'
+                      backgroundColor : 'rgb(21, 52, 72)',
+                      fontSize : '1.3rem'
                     }}
                     onClick={handleClose}
                   >
@@ -649,27 +653,29 @@ const Home: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          mt: 20,
+          mt: 10,
           padding: 1,
-          border: "2px solid #ccc",
-          borderRadius: 4,
-          backgroundColor: "rgba(192, 192, 192, 0.7)",
+          border: "4px solid rgb(148, 137, 121)",
+          borderRadius: 2,
+          backgroundColor: "rgba(223, 208, 184, 0.75)",
           backdropFilter: "blur(10px)",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 4px 4px rgba(0, 0, 0, 0.4)",
         }}
       >
         <Typography
           sx={{
-            fontWeight: "bold",
-            fontFamily: "VT323",
-            color: "#7f00ff",
+            fontWeight: "400",
+            fontFamily: "Pacifico, cursive",
+            fontStyle : 'normal',
+            fontSize : '1.5rem'
           }}
-        >
+          > 
           <Link
             href="https://www.instagram.com/9jengiskhann/"
             target="_blank"
             rel="noopener noreferrer"
-          >
+            color="rgb(0, 0, 0)"
+            >
             Dev By: jengiskhann
           </Link>
         </Typography>
