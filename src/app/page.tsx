@@ -31,6 +31,7 @@ import Image from "next/image";
 import { hetKhonFont, maliFont, morKhor } from "./assets/fonts/index";
 import TourIcon from "@mui/icons-material/Tour";
 import { ScavengerTeam } from "@/shared/interfaces";
+import Navbar from "@/shared/components/navbar-component";
 
 interface TextFieldRef {
   ref: React.MutableRefObject<HTMLInputElement | null>;
@@ -639,39 +640,7 @@ const Home: React.FC = () => {
         </Stack>
       </div>
       {/* ------------------------ Footer ------------------- */}
-      <Container
-        maxWidth="xl"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          mt: 10,
-          padding: 1,
-          border: "4px solid rgb(148, 137, 121)",
-          borderRadius: 2,
-          backgroundColor: "rgba(223, 208, 184, 0.75)",
-          backdropFilter: "blur(10px)",
-          boxShadow: "0 4px 4px rgba(0, 0, 0, 0.4)",
-        }}
-      >
-        <Typography
-          sx={{
-            fontWeight: "400",
-            fontFamily: "Pacifico, cursive",
-            fontStyle : 'normal',
-            fontSize : '1.5rem'
-          }}
-          > 
-          <Link
-            href="https://www.instagram.com/9jengiskhann/"
-            target="_blank"
-            rel="noopener noreferrer"
-            color="rgb(0, 0, 0)"
-            >
-            Dev By: jengiskhann
-          </Link>
-        </Typography>
-      </Container>
+     <Navbar/>
     </main>
   );
 };

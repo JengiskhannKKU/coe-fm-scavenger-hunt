@@ -1,10 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, Container, Link, Typography } from "@mui/material";
+import { Button, Container, Link, Stack, Typography } from "@mui/material";
 import moment from "moment-timezone"; // Import Moment and Moment Timezone
 import { getDocs, collection } from "firebase/firestore";
 import db from "@/firebase/config";
+import { morKhor } from "../assets/fonts";
+import SearchIcon from "@mui/icons-material/Search";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import Navbar from "@/shared/components/navbar-component";
 
 const Home: React.FC = () => {
   const [startTimestamps, setStartTimestamps] = useState<any[]>([]);
@@ -170,46 +174,73 @@ const Home: React.FC = () => {
 
   return (
     <main>
-      <Container
-        maxWidth="xl"
+      <Stack
+        direction="row"
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
           mt: 8,
           padding: 4,
-          border: "2px solid #ccc",
           borderRadius: 4,
-          backgroundColor: "rgba(192, 192, 192, 0.7)",
+          backgroundColor: "rgb(255, 255, 255)",
           backdropFilter: "blur(10px)",
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+          width: "500px",
         }}
       >
-        <Typography
-          variant="h3"
-          sx={{
+        <div style={{ marginLeft: "10px" }}>
+          <EmojiEventsIcon
+            sx={{ width: "150px", height: "100px", color: "rgb(255, 193, 0)" }}
+          />
+        </div>
+        <div style={{ marginLeft: "15px" }}>
+          <Typography
+            variant="h1"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontWeight: morKhor.style.fontWeight,
+              fontFamily: morKhor.style.fontFamily,
+              // textShadow: "2px 2px #7f00ff",
+              color: "rgb(21, 52, 72)",
+              fontSize: "100px",
+            }}
+          >
+            Ranking
+          </Typography>
+        </div>
+      </Stack>
+      <div
+        style={{
+          width: "500px",
+          height: "100px",
+          display: "flex",
+          flexDirection: "row",
+          marginTop: "15px",
+        }}
+      >
+        <div
+          style={{
             display: "flex",
             justifyContent: "center",
-            fontWeight: "bold",
-            fontFamily: "VT323",
-            textShadow: "2px 2px #7f00ff",
-            color: "#ffffff",
+            backgroundColor: "rgb(223, 208, 184)",
+            padding: 2,
+            borderRadius: "20px",
+            height: "50px",
+            alignItems: "center",
+            width : '100%'
           }}
-        >
-          Ranking
-        </Typography>
+        ></div>
+      </div>
 
-        <Button
-          onClick={() => {
-            console.log("Start Timestamps:", startTimestamps);
-            console.log("End Timestamps:", endTimestamps);
-            console.log("Diff Timestamps:", diffTimestamps);
-            console.log("Scores:", score);
-          }}
-        >
-          Check Team Timestamps
-        </Button>
-      </Container>
+      {/* <Button
+            onClick={() => {
+              console.log("Start Timestamps:", startTimestamps);
+              console.log("End Timestamps:", endTimestamps);
+              console.log("Diff Timestamps:", diffTimestamps);
+              console.log("Scores:", score);
+            }}
+          >
+            Check Team Timestamps
+          </Button> */}
       {/* Display the scores */}
       {score.map((team, index) => (
         <Container
@@ -220,77 +251,90 @@ const Home: React.FC = () => {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            mt: 2,
-            padding: 4,
-            border: "2px solid #ccc",
-            borderRadius: 4,
-            backgroundColor: "rgba(192, 192, 192, 0.7)",
-            backdropFilter: "blur(10px)",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            mt: 4,
+            // padding: 4,
+            // border: "2px solid #ccc",
+            // borderRadius: 4,
+            // backgroundColor: "rgba(192, 192, 192, 0.7)",
+            // backdropFilter: "blur(10px)",
+            // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Typography
-            variant="h4"
-            sx={{
+          {" "}
+          <div
+            style={{
               display: "flex",
               justifyContent: "center",
-              fontWeight: "bold",
-              fontFamily: "VT323",
-              textShadow: "2px 2px #7f00ff",
-              color: "#ffffff",
+              width: "500px",
+              height: "100px",
+              alignItems: "center",
+              backgroundColor: "rgb(255, 255, 255)",
+              flexDirection: "column",
+              color: "rgb(21, 52, 72)",
+              borderRadius: "10px",
+              backdropFilter: "blur(10px)",
+              boxShadow: "0 12px 4px rgba(0, 0, 0, 0.4)",
             }}
           >
-            {team.teamName}
-          </Typography>
-          <Typography
-            variant="h4"
-            sx={{
+            <Typography
+              variant="h2"
+              sx={{
+                fontWeight: morKhor.style.fontWeight,
+                fontFamily: morKhor.style.fontFamily,
+              }}
+            >
+              {team.teamName}
+            </Typography>
+          </div>
+          <div
+            style={{
               display: "flex",
               justifyContent: "center",
-              fontWeight: "bold",
-              fontFamily: "VT323",
-              textShadow: "2px 2px #ffffff",
-              color: "#7f00ff",
+              width: "200px",
+              height: "100px",
+              alignItems: "center",
+              backgroundColor: "rgb(255, 255, 255)",
+              marginLeft: "50px",
+              borderRadius: "10px",
+              backdropFilter: "blur(10px)",
+              boxShadow: "0 12px 4px rgba(0, 0, 0, 0.4)",
             }}
           >
-            : {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)}{" "}
-            P.
-          </Typography>
+            <Typography
+              variant="h4"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                fontWeight: morKhor.style.fontWeight,
+                fontFamily: morKhor.style.fontFamily,
+                textShadow: "2px 2px #ffffff",
+                color: "rgb(21, 52, 72)",
+              }}
+            >
+              {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)}
+            </Typography>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100px",
+              height: "100px",
+              alignItems: "center",
+              backgroundColor: "rgb(21, 52, 72)",
+              marginLeft: "50px",
+              borderRadius: "10px",
+              backdropFilter: "blur(10px)",
+              boxShadow: "0 12px 4px rgba(0, 0, 0, 0.4)",
+            }}
+          >
+            <SearchIcon fontSize="large" sx={{ color: "rgb(255, 255, 255)" }} />
+          </div>
         </Container>
       ))}
 
       {/* ------------------------ Footer ------------------- */}
-      <Container
-        maxWidth="xl"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          mt: 20,
-          padding: 1,
-          border: "2px solid #ccc",
-          borderRadius: 4,
-          backgroundColor: "rgba(192, 192, 192, 0.7)",
-          backdropFilter: "blur(10px)",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            fontFamily: "VT323",
-            color: "#7f00ff",
-          }}
-        >
-          <Link
-            href="https://www.instagram.com/9jengiskhann/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dev By: jengiskhann
-          </Link>
-        </Typography>
-      </Container>
+      <Navbar />
     </main>
   );
 };
