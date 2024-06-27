@@ -94,7 +94,7 @@ const Home: React.FC = () => {
 
   const handleKeyDown = (
     index: number,
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLDivElement>
   ) => {
     if (event.key === "Backspace" && code[index] === "") {
       if (index > 0) {
