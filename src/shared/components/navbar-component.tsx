@@ -22,7 +22,7 @@ const Navbar = () => {
     <Typography
       sx={{
         fontWeight: "400",
-        fontFamily: "JetBrains Mono",
+        fontFamily: "Pacifico",
         fontStyle : 'normal',
         fontSize : '1.5rem'
       }}
@@ -39,7 +39,7 @@ const Navbar = () => {
     <Typography
       sx={{
         fontWeight: "400",
-        fontFamily: "JetBrains Mono",
+        fontFamily: "Pacifico",
         fontStyle : 'normal',
         fontSize : '1.5rem'
       }}

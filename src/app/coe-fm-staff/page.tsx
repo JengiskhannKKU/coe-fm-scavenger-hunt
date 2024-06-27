@@ -25,6 +25,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import db from "@/firebase/config";
+import Navbar from "@/shared/components/navbar-component";
 
 const Home: React.FC = () => {
   const timeStamp = moment().tz("Asia/Bangkok").format("HH:mm:ss");
@@ -364,38 +365,8 @@ const Home: React.FC = () => {
       </Container>
 
       {/* ------------------------ Footer ------------------- */}
-      <Container
-        maxWidth="xl"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          mt: 20,
-          padding: 1,
-          border: "2px solid #ccc",
-          borderRadius: 4,
-          backgroundColor: "rgba(192, 192, 192, 0.7)",
-          backdropFilter: "blur(10px)",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            fontFamily: "VT323",
-            color: "#7f00ff",
-          }}
-        >
-          <Link
-          href="https://www.instagram.com/9jengiskhann/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Dev By: jengiskhann
-        </Link>
-        </Typography>
-        
-      </Container>
+
+      <Navbar/>
     </main>
   );
 };

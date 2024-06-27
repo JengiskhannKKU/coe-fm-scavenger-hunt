@@ -18,8 +18,8 @@ const Home: React.FC = () => {
 
   // Function to calculate team scores
   const calculateTeamScore = (diffTimestamps: any[]) => {
-    const MAX_TIME = 20;
-    const MAX_SCORE = 480;
+    const MAX_TIME = 10;
+    const MAX_SCORE = 62.5;
 
     const scores = diffTimestamps.map((diff) => {
       let score_1st = 0;
