@@ -7,7 +7,8 @@ const Navbar = () => {
     maxWidth="xl"
     sx={{
       display: "flex",
-      flexDirection: "column",
+      flexDirection: "row",
+      justifyContent: "space-around",
       alignItems: "center",
       mt: 10,
       padding: 1,
@@ -21,7 +22,7 @@ const Navbar = () => {
     <Typography
       sx={{
         fontWeight: "400",
-        fontFamily: "Pacifico, cursive",
+        fontFamily: "JetBrains Mono",
         fontStyle : 'normal',
         fontSize : '1.5rem'
       }}
@@ -32,7 +33,24 @@ const Navbar = () => {
         rel="noopener noreferrer"
         color="rgb(0, 0, 0)"
         >
-        Dev By: jengiskhann
+        Back-end : jengiskhann
+      </Link>
+    </Typography>
+    <Typography
+      sx={{
+        fontWeight: "400",
+        fontFamily: "JetBrains Mono",
+        fontStyle : 'normal',
+        fontSize : '1.5rem'
+      }}
+      > 
+      <Link
+        href="https://www.instagram.com/9jengiskhann/"
+        target="_blank"
+        rel="noopener noreferrer"
+        color="rgb(0, 0, 0)"
+        >
+        Front-end : ไอพีม
       </Link>
     </Typography>
   </Container>

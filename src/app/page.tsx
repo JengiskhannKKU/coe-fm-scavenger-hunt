@@ -83,11 +83,25 @@ const Home: React.FC = () => {
 
   const handleInputChange = (index: number, value: string) => {
     const newCode = [...code];
-    newCode[index] = value;
+    newCode[index] = value.trim(); // Trim the value to avoid blank spaces
     setCode(newCode);
 
     if (value !== "" && index < inputRefs.current.length - 1) {
+      // Move focus to the next field if it's not the last field
       inputRefs.current[index + 1].ref.current?.focus();
+    }
+  };
+
+  const handleKeyDown = (
+    index: number,
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Backspace" && code[index] === "") {
+      if (index > 0) {
+        const previousIndex = index - 1;
+        inputRefs.current[previousIndex].ref.current?.focus();
+        inputRefs.current[previousIndex].ref.current?.select();
+      }
     }
   };
 
@@ -199,7 +213,6 @@ const Home: React.FC = () => {
 
     return () => {
       inputRefs.current.forEach((_, index) => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         const ref = inputRefs.current[index].ref.current;
         if (ref) {
           ref.removeEventListener("focus", () => handleFocus(index));
@@ -298,7 +311,7 @@ const Home: React.FC = () => {
               >
                 FIRSTMEET
               </Typography>
-              <div style={{ display : 'flex', justifyContent : 'center'}}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
                 <Typography
                   variant="h5"
                   color="initial"
@@ -311,7 +324,7 @@ const Home: React.FC = () => {
                 >
                   SCAVENGER HUNT 2024
                 </Typography>
-                <TourIcon fontSize="large"/>
+                <TourIcon fontSize="large" />
               </div>
               <div
                 style={{
@@ -334,6 +347,7 @@ const Home: React.FC = () => {
                   กรอกโค้ดตรงนี้ได้เลย!!
                 </Typography>
               </div>
+
               <FormControl
                 sx={{
                   display: "flex",
@@ -359,6 +373,7 @@ const Home: React.FC = () => {
                       inputRef={inputRef.ref}
                       value={code[index]}
                       onChange={(e) => handleInputChange(index, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(index, e)}
                       autoFocus={index === 0}
                     />
                     {index !== inputRefs.current.length - 1 &&
@@ -368,6 +383,7 @@ const Home: React.FC = () => {
                   </React.Fragment>
                 ))}
               </FormControl>
+
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Typography
                   variant="h5"
@@ -618,9 +634,9 @@ const Home: React.FC = () => {
                       px: 2,
                       borderRadius: 4,
                       fontFamily: morKhor.style.fontFamily,
-                      fontWeight : morKhor.style.fontWeight,
-                      backgroundColor : 'rgb(21, 52, 72)',
-                      fontSize : '1.3rem'
+                      fontWeight: morKhor.style.fontWeight,
+                      backgroundColor: "rgb(21, 52, 72)",
+                      fontSize: "1.3rem",
                     }}
                     onClick={handleClose}
                   >
@@ -632,15 +648,32 @@ const Home: React.FC = () => {
           </Stack>
         </div>
       </div>
-      <div style={{ display : 'flex' , justifyContent : 'right', marginTop : '10px'}}>
+      <div
+        style={{ display: "flex", justifyContent: "right", marginTop: "10px" }}
+      >
         <Stack direction="row" spacing={2}>
-          <Box width={25} height={25} p={1} sx={{ backgroundColor : 'white', borderRadius : '8px'}}></Box>
-          <Box width={25} height={25} p={1} sx={{ backgroundColor : 'white', borderRadius : '8px'}}></Box>
-          <Box width={25} height={25} p={1} sx={{ backgroundColor : 'white', borderRadius : '8px'}}></Box>
+          <Box
+            width={25}
+            height={25}
+            p={1}
+            sx={{ backgroundColor: "white", borderRadius: "8px" }}
+          ></Box>
+          <Box
+            width={25}
+            height={25}
+            p={1}
+            sx={{ backgroundColor: "white", borderRadius: "8px" }}
+          ></Box>
+          <Box
+            width={25}
+            height={25}
+            p={1}
+            sx={{ backgroundColor: "white", borderRadius: "8px" }}
+          ></Box>
         </Stack>
       </div>
       {/* ------------------------ Footer ------------------- */}
-     <Navbar/>
+      <Navbar />
     </main>
   );
 };
