@@ -3,4 +3,5 @@ export interface ScavengerTeam {
     firstPlace: string;
     seccondPlace: string;
     thirdPlace: string;
+    fourthPlace: string;
   }

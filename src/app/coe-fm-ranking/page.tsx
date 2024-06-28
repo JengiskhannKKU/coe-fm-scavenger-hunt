@@ -9,6 +9,8 @@ import { morKhor } from "../assets/fonts";
 import SearchIcon from "@mui/icons-material/Search";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import Navbar from "@/shared/components/navbar-component";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { th } from "date-fns/locale";
 
 const Home: React.FC = () => {
   const [startTimestamps, setStartTimestamps] = useState<any[]>([]);
@@ -16,36 +18,50 @@ const Home: React.FC = () => {
   const [diffTimestamps, setDiffTimestamps] = useState<any[]>([]);
   const [score, setScore] = useState<any[]>([]); // Initialize as an empty array
 
+  // for showing on display
+  const [c_score, setC_score] = useState<number>(0);
+  const [j_score, setJ_score] = useState<number>(0);
+  const [p_score, setP_score] = useState<number>(0);
+  const [r_score, setR_score] = useState<number>(0);
+
   // Function to calculate team scores
   const calculateTeamScore = (diffTimestamps: any[]) => {
     const MAX_TIME = 10;
-    const MAX_SCORE = 62.5;
+    const PENALTY_TIME = 9;
+    const MAX_SCORE = 625;
+    const PENALTY_SCORE = 62.5;
 
     const scores = diffTimestamps.map((diff) => {
       let score_1st = 0;
       let score_2nd = 0;
       let score_3rd = 0;
+      let score_4th = 0;
 
-      if (diff["1st"] !== null && diff["1st"] <= MAX_TIME) {
-        score_1st = (MAX_TIME - diff["1st"]) * (MAX_SCORE / MAX_TIME);
+      if (diff["1st"] !== null) {
+        score_1st = diff["1st"] > PENALTY_TIME ? PENALTY_SCORE : (MAX_TIME - diff["1st"]) * (MAX_SCORE / MAX_TIME);
       }
-      if (diff["2nd"] !== null && diff["2nd"] <= MAX_TIME) {
-        score_2nd = (MAX_TIME - diff["2nd"]) * (MAX_SCORE / MAX_TIME);
+      if (diff["2nd"] !== null) {
+        score_2nd = diff["2nd"] > PENALTY_TIME ? PENALTY_SCORE : (MAX_TIME - diff["2nd"]) * (MAX_SCORE / MAX_TIME);
+      }PENALTY_TIME
+      if (diff["3rd"] !== null) {
+        score_3rd = diff["3rd"] > PENALTY_TIME ? PENALTY_SCORE : (MAX_TIME - diff["3rd"]) * (MAX_SCORE / MAX_TIME);
       }
-      if (diff["3rd"] !== null && diff["3rd"] <= MAX_TIME) {
-        score_3rd = (MAX_TIME - diff["3rd"]) * (MAX_SCORE / MAX_TIME);
+      if (diff["4th"] !== null) {
+        score_4th = diff["4th"] > PENALTY_TIME ? PENALTY_SCORE : (MAX_TIME - diff["4th"]) * (MAX_SCORE / MAX_TIME);
       }
 
       // Ensure scores are formatted to 2 decimal places
       score_1st = parseFloat(score_1st.toFixed(2));
       score_2nd = parseFloat(score_2nd.toFixed(2));
       score_3rd = parseFloat(score_3rd.toFixed(2));
+      score_4th = parseFloat(score_4th.toFixed(2));
 
       return {
         teamName: diff.teamName,
         "1st": score_1st,
         "2nd": score_2nd,
         "3rd": score_3rd,
+        "4th": score_4th,
       };
     });
 
@@ -66,6 +82,7 @@ const Home: React.FC = () => {
           "1st": docData["1st"] || "",
           "2nd": docData["2nd"] || "",
           "3rd": docData["3rd"] || "",
+          "4th": docData["4th"] || "",
         };
         data.push(formattedData);
       });
@@ -84,6 +101,7 @@ const Home: React.FC = () => {
           "1st": "",
           "2nd": "",
           "3rd": "",
+          "4th": "",
         };
 
         docsSnapshot.forEach((doc) => {
@@ -94,6 +112,8 @@ const Home: React.FC = () => {
             teamData["2nd"] = docData.timeStamp || "";
           } else if (doc.id === "3rd") {
             teamData["3rd"] = docData.timeStamp || "";
+          } else if (doc.id === "4th") {
+            teamData["4th"] = docData.timeStamp || "";
           }
         });
 
@@ -115,6 +135,7 @@ const Home: React.FC = () => {
               "1st": null,
               "2nd": null,
               "3rd": null,
+              "4th": null,
             };
 
           const diff1st =
@@ -141,12 +162,21 @@ const Home: React.FC = () => {
                   true
                 )
               : null;
+          const diff4th =
+            startTeam["4th"] && endTeam["4th"]
+              ? moment(endTeam["4th"], "HH:mm:ss").diff(
+                  moment(startTeam["4th"], "HH:mm:ss"),
+                  "minutes",
+                  true
+                )
+              : null;
 
           return {
             teamName: startTeam.teamName,
             "1st": diff1st,
             "2nd": diff2nd,
             "3rd": diff3rd,
+            "4th": diff4th,
           };
         })
         .filter(Boolean);
@@ -228,20 +258,23 @@ const Home: React.FC = () => {
             alignItems: "center",
             width: "100%",
           }}
-        ></div>
-      </div>
-
-      {/* <Button
+        >
+          <Button
             onClick={() => {
               console.log("Start Timestamps:", startTimestamps);
               console.log("End Timestamps:", endTimestamps);
               console.log("Diff Timestamps:", diffTimestamps);
               console.log("Scores:", score);
+              {
+                /* Display the scores */
+              }
             }}
           >
             Check Team Timestamps
-          </Button> */}
-      {/* Display the scores */}
+          </Button>
+        </div>
+      </div>
+
       {score.map((team, index) => (
         <Container
           key={index}
@@ -311,38 +344,19 @@ const Home: React.FC = () => {
                 color: "rgb(21, 52, 72)",
               }}
             >
-              {parseFloat(team["1st"] + team["2nd"] + team["3rd"]).toFixed(2)}
+              {team.teamName === "c++"
+                ? c_score.toFixed(2)
+                : team.teamName === "java"
+                ? j_score.toFixed(2)
+                : team.teamName === "python"
+                ? p_score.toFixed(2)
+                : team.teamName === "r-project"
+                ? r_score.toFixed(2)
+                : ""}
             </Typography>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              width: "200px",
-              height: "100px",
-              alignItems: "center",
-              backgroundColor: "rgb(21, 52, 72)",
-              marginLeft: "50px",
-              borderRadius: "10px",
-              backdropFilter: "blur(10px)",
-              boxShadow: "0 12px 4px rgba(0, 0, 0, 0.4)",
-            }}
-          >
-            <Typography
-              variant="h4"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                fontWeight: morKhor.style.fontWeight,
-                fontFamily: morKhor.style.fontFamily,
-                // textShadow: "2px 2px #ffffff",
-                color: "rgb(255,255,255)",
-              }}
-            >
-            Time
-            </Typography>
-          </div>
-          <div
+          <Button
+            id={team.teamName}
             style={{
               display: "flex",
               justifyContent: "center",
@@ -355,9 +369,91 @@ const Home: React.FC = () => {
               backdropFilter: "blur(10px)",
               boxShadow: "0 12px 4px rgba(0, 0, 0, 0.4)",
             }}
+            onClick={(e) => {
+              let totalDiffTime = 0;
+              if (e.currentTarget.id === "c++") {
+                totalDiffTime =
+                  diffTimestamps[0]["1st"] +
+                  diffTimestamps[0]["2nd"] +
+                  diffTimestamps[0]["3rd"] +
+                  diffTimestamps[0]["4th"];
+              } else if (e.currentTarget.id === "java") {
+                totalDiffTime =
+                  diffTimestamps[1]["1st"] +
+                  diffTimestamps[1]["2nd"] +
+                  diffTimestamps[1]["3rd"] +
+                  diffTimestamps[1]["4th"];
+              } else if (e.currentTarget.id === "python") {
+                totalDiffTime =
+                  diffTimestamps[2]["1st"] +
+                  diffTimestamps[2]["2nd"] +
+                  diffTimestamps[2]["3rd"] +
+                  diffTimestamps[2]["4th"];
+              } else if (e.currentTarget.id === "r-project") {
+                totalDiffTime =
+                  diffTimestamps[3]["1st"] +
+                  diffTimestamps[3]["2nd"] +
+                  diffTimestamps[3]["3rd"] +
+                  diffTimestamps[3]["4th"];
+              }
+
+              alert(
+                `Total Difference Time for ${
+                  e.currentTarget.id
+                }: ${totalDiffTime.toFixed(2)} minutes`
+              );
+            }}
+          >
+            <AccessTimeIcon/>
+          </Button>
+          <Button
+            id={team.teamName}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100px",
+              height: "100px",
+              alignItems: "center",
+              backgroundColor: "rgb(21, 52, 72)",
+              marginLeft: "50px",
+              borderRadius: "10px",
+              backdropFilter: "blur(10px)",
+              boxShadow: "0 12px 4px rgba(0, 0, 0, 0.4)",
+            }}
+            onClick={(e) => {
+              if (e.currentTarget.id === "c++") {
+                setC_score(
+                  score[0]["1st"] +
+                    score[0]["2nd"] +
+                    score[0]["3rd"] +
+                    score[0]["4th"]
+                );
+              } else if (e.currentTarget.id === "java") {
+                setJ_score(
+                  score[1]["1st"] +
+                    score[1]["2nd"] +
+                    score[1]["3rd"] +
+                    score[1]["4th"]
+                );
+              } else if (e.currentTarget.id === "python") {
+                setP_score(
+                  score[2]["1st"] +
+                    score[2]["2nd"] +
+                    score[2]["3rd"] +
+                    score[2]["4th"]
+                );
+              } else if (e.currentTarget.id === "r-project") {
+                setR_score(
+                  score[3]["1st"] +
+                    score[3]["2nd"] +
+                    score[3]["3rd"] +
+                    score[3]["4th"]
+                );
+              }
+            }}
           >
             <SearchIcon fontSize="large" sx={{ color: "rgb(255, 255, 255)" }} />
-          </div>
+          </Button>
         </Container>
       ))}
 

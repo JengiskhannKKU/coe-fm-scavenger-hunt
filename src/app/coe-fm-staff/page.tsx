@@ -131,6 +131,16 @@ const Home: React.FC = () => {
             >
               3rd
             </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setTeamName("java");
+                setCurrentOrderPlace("4th");
+                handleClickOpen();
+              }}
+            >
+              4th
+            </Button>
           </Container>
 
           {/* --------------------------- python ------------------------- */}
@@ -185,6 +195,16 @@ const Home: React.FC = () => {
               }}
             >
               3rd
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setTeamName("python");
+                setCurrentOrderPlace("4th");
+                handleClickOpen();
+              }}
+            >
+              4th
             </Button>
           </Container>
 
@@ -241,6 +261,16 @@ const Home: React.FC = () => {
             >
               3rd
             </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setTeamName("c++");
+                setCurrentOrderPlace("4th");
+                handleClickOpen();
+              }}
+            >
+              4th
+            </Button>
           </Container>
 
           {/* ------------------------------- r-project ---------------------------- */}
@@ -295,6 +325,16 @@ const Home: React.FC = () => {
               }}
             >
               3rd
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setTeamName("r-project");
+                setCurrentOrderPlace("4th");
+                handleClickOpen();
+              }}
+            >
+              4th
             </Button>
           </Container>
           {/* ------------------------------- end ----------------------------- */}

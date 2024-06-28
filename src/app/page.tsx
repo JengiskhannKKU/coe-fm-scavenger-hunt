@@ -44,24 +44,28 @@ const scavengerTeam: ScavengerTeam[] = [
     firstPlace: "1jcode",
     seccondPlace: "2jcode",
     thirdPlace: "3jcode",
+    fourthPlace: "4jcode"
   },
   {
     teamName: "c++",
     firstPlace: "1ccode",
     seccondPlace: "2ccode",
     thirdPlace: "3ccode",
+    fourthPlace: "4ccode"
   },
   {
     teamName: "python",
     firstPlace: "1pcode",
     seccondPlace: "2pcode",
     thirdPlace: "3pcode",
+    fourthPlace: "4pcode"
   },
   {
     teamName: "r-project",
     firstPlace: "1rcode",
     seccondPlace: "2rcode",
     thirdPlace: "3rcode",
+    fourthPlace: "4rcode"
   },
 ];
 
@@ -127,7 +131,8 @@ const Home: React.FC = () => {
       if (
         code2 === element.firstPlace ||
         code2 === element.seccondPlace ||
-        code2 === element.thirdPlace
+        code2 === element.thirdPlace ||
+        code2 === element.fourthPlace
       ) {
         return element.teamName;
       }
@@ -152,6 +157,9 @@ const Home: React.FC = () => {
         orderOfValidCode = "3rd";
         foundTeamName = element.teamName;
         break;
+      } else if (code2 === element.fourthPlace) {
+        orderOfValidCode = "4th";
+        foundTeamName = element.teamName;
       }
     }
 
@@ -523,6 +531,16 @@ const Home: React.FC = () => {
                                   border: "1px solid #fff",
                                 }}
                               />
+                              <Image
+                                src="https://i.ibb.co/d54z8Fz/pixil-frame-0-1.png"
+                                width={50}
+                                height={50}
+                                alt="valid-code"
+                                style={{
+                                  borderRadius: "8px",
+                                  border: "1px solid #fff",
+                                }}
+                              />
                             </>
                           )}
                           {progress && progress == 100 && (
@@ -557,10 +575,74 @@ const Home: React.FC = () => {
                                   border: "1px solid #fff",
                                 }}
                               />
+                              <Image
+                                src="https://i.ibb.co/d54z8Fz/pixil-frame-0-1.png"
+                                width={50}
+                                height={50}
+                                alt="valid-code"
+                                style={{
+                                  borderRadius: "8px",
+                                  border: "1px solid #fff",
+                                }}
+                              />
                             </>
                           )}
                           {progress && progress == 150 && (
                             <>
+                              <Image
+                                src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                                width={50}
+                                height={50}
+                                alt="valid-code"
+                                style={{
+                                  borderRadius: "8px",
+                                  border: "1px solid #fff",
+                                }}
+                              />
+                              <Image
+                                src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                                width={50}
+                                height={50}
+                                alt="valid-code"
+                                style={{
+                                  borderRadius: "8px",
+                                  border: "1px solid #fff",
+                                }}
+                              />
+                              <Image
+                                src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                                width={50}
+                                height={50}
+                                alt="valid-code"
+                                style={{
+                                  borderRadius: "8px",
+                                  border: "1px solid #fff",
+                                }}
+                              />
+                              <Image
+                                src="https://i.ibb.co/d54z8Fz/pixil-frame-0-1.png"
+                                width={50}
+                                height={50}
+                                alt="valid-code"
+                                style={{
+                                  borderRadius: "8px",
+                                  border: "1px solid #fff",
+                                }}
+                              />
+                            </>
+                          )}
+                          {progress && progress == 200 && (
+                            <>
+                              <Image
+                                src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
+                                width={50}
+                                height={50}
+                                alt="valid-code"
+                                style={{
+                                  borderRadius: "8px",
+                                  border: "1px solid #fff",
+                                }}
+                              />
                               <Image
                                 src="https://i.ibb.co/SfMQLkM/pixil-frame-0.png"
                                 width={50}
