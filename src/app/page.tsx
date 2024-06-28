@@ -41,31 +41,31 @@ interface TextFieldRef {
 const scavengerTeam: ScavengerTeam[] = [
   {
     teamName: "java",
-    firstPlace: "1jcode",
-    seccondPlace: "2jcode",
-    thirdPlace: "3jcode",
-    fourthPlace: "4jcode"
-  },
+    firstPlace: "01coe%",
+    seccondPlace: "Enscp13",
+    thirdPlace: "ABIJK3",
+    fourthPlace: "Pt101c"
+  },  
   {
     teamName: "c++",
-    firstPlace: "1ccode",
-    seccondPlace: "2ccode",
-    thirdPlace: "3ccode",
-    fourthPlace: "4ccode"
+    firstPlace: "XOdid;",
+    seccondPlace: "08EN4R",
+    thirdPlace: "05COE#",
+    fourthPlace: "Turing"
   },
   {
     teamName: "python",
-    firstPlace: "1pcode",
-    seccondPlace: "2pcode",
-    thirdPlace: "3pcode",
-    fourthPlace: "4pcode"
+    firstPlace: "75292D",
+    seccondPlace: "CAESAR",
+    thirdPlace: "CP711?",
+    fourthPlace: "ENIGMA"
   },
   {
     teamName: "r-project",
-    firstPlace: "1rcode",
-    seccondPlace: "2rcode",
-    thirdPlace: "3rcode",
-    fourthPlace: "4rcode"
+    firstPlace: "ORENO9",
+    seccondPlace: "PYGETA",
+    thirdPlace: "ENCT4U",
+    fourthPlace: "URCO3F"
   },
 ];
 
