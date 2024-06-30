@@ -67,7 +67,7 @@ const scavengerTeam: ScavengerTeam[] = [
     thirdPlace: "ENCT4U",
     fourthPlace: "URCO3F"
   },
-];
+];//
 
 const Home: React.FC = () => {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
