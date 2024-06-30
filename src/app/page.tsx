@@ -42,30 +42,30 @@ const scavengerTeam: ScavengerTeam[] = [
   {
     teamName: "java",
     firstPlace: "01coe%",
-    seccondPlace: "Encp13",
-    thirdPlace: "ABIJK3",
-    fourthPlace: "Pt101c"
+    seccondPlace: "encp13",
+    thirdPlace: "abijk3",
+    fourthPlace: "pt101c",
   },  
   {
     teamName: "c++",
-    firstPlace: "XOdid;",
-    seccondPlace: "08EN4R",
-    thirdPlace: "05COE#",
-    fourthPlace: "Turing"
+    firstPlace: "xodid;",
+    seccondPlace: "08en4r",
+    thirdPlace: "05coe#",
+    fourthPlace: "turing",
   },
   {
     teamName: "python",
-    firstPlace: "75292D",
-    seccondPlace: "CAESAR",
-    thirdPlace: "CP711?",
-    fourthPlace: "ENIGMA"
+    firstPlace: "75292d",
+    seccondPlace: "caesar",
+    thirdPlace: "cp711?",
+    fourthPlace: "enigma",
   },
   {
     teamName: "r-project",
-    firstPlace: "ORENO9",
-    seccondPlace: "PYGETA",
-    thirdPlace: "ENCT4U",
-    fourthPlace: "URCO3F"
+    firstPlace: "oren09",
+    seccondPlace: "pygeta",
+    thirdPlace: "enct4u",
+    fourthPlace: "urco3f",
   },
 ];
 
