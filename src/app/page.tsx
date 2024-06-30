@@ -42,7 +42,7 @@ const scavengerTeam: ScavengerTeam[] = [
   {
     teamName: "java",
     firstPlace: "01coe%",
-    seccondPlace: "Enscp13",
+    seccondPlace: "Encp13",
     thirdPlace: "ABIJK3",
     fourthPlace: "Pt101c"
   },  
