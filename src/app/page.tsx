@@ -160,6 +160,7 @@ const Home: React.FC = () => {
       } else if (code2 === element.fourthPlace) {
         orderOfValidCode = "4th";
         foundTeamName = element.teamName;
+        break;
       }
     }
 
